@@ -9,7 +9,7 @@ const gifStages = [
     'https://media1.tenor.com/m/uDugCXK4vI4AAAAC/chiikawa-hachiware.gif'
 ]
 
-const noMessages = ['No', 'Are you positive? 🤔', 'Pookie please... 🥺', 'If you say no, I will be really sad...', 'I will be very sad... 😢', 'Please??? 💔', "Don't do this to me...", 'Last chance! 😭', "You can't catch me anyway 😜"]
+const noMessages = ['No', 'Are you positive? 🤔', 'Pookie please... 🥺', 'If you say no, I will be really sad...', 'I will be very sad... 😢', 'Please??? 💔', "Don't do this to me...", 'La[...]
 
 let noClickCount = 0
 let runawayEnabled = false
@@ -94,11 +94,6 @@ async function toggleMusic() {
 
 function handleYesClick() {
     void ensureMusic()
-    window.location.href = 'yes.html'
-}
-
-function handleNoClick() {
-    void ensureMusic()
     noClickCount++
     noBtn.textContent = noMessages[Math.min(noClickCount, noMessages.length - 1)]
 
@@ -118,10 +113,22 @@ function handleNoClick() {
     }
 }
 
+function handleNoClick() {
+    void ensureMusic()
+    window.location.href = 'yes.html'
+}
+
 function swapGif(src) {
     if (!catGif) return
     catGif.style.opacity = '0'
-    setTimeout(() => { catGif.src = src; catGif.style.opacity = '1' }, 200)
+    setTimeout(() => { 
+        catGif.src = src
+        catGif.onerror = () => {
+            console.warn(`Failed to load GIF: ${src}`)
+            catGif.src = 'https://media.tenor.com/EBV7OT7ACfwAAAAj/u-u-qua-qua-u-quaa.gif'
+        }
+        catGif.style.opacity = '1' 
+    }, 200)
 }
 
 function runAway() {
