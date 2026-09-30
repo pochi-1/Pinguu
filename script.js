@@ -1,9 +1,9 @@
 const gifStages = [
     'https://media.tenor.com/EBV7OT7ACfwAAAAj/u-u-qua-qua-u-quaa.gif',
     'https://media1.tenor.com/m/-ozRS87uGPsAAAAC/chiikawa-cute.gif',
-    'https://media.tenor.com/f_rkpJbH1s8AAAAj/somsom1012.gif',
+    'https://media1.tenor.com/m/yUkZmkWoAV0AAAAC/sad-jigglypuff.gif',
     'https://media.tenor.com/OGY9zdREsVAAAAAj/somsom1012.gif',
-    'https://media1.tenor.com/m/WGfra-Y_Ke0AAAAd/chiikawa-sad.gif',
+    'https://media1.tenor.com/m/IOSVUx97AW4AAAAC/snoopy-sad.gif',
     'https://media.tenor.com/CivArbX7NzQAAAAj/somsom1012.gif',
     'https://media.tenor.com/5_tv1HquZlcAAAAj/chiikawa.gif',
     'https://media1.tenor.com/m/uDugCXK4vI4AAAAC/chiikawa-hachiware.gif'
