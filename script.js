@@ -70,13 +70,13 @@ function toggleMusic() {
 
 function handleYesClick() {
     if (!runawayEnabled) {
-        // Tease her to try No first
-        const msg = yesTeasePokes[Math.min(yesTeasedCount, yesTeasePokes.length - 1)]
-        yesTeasedCount++
+        // Tease her to try Yes first
+        const msg = noTeasePokes[Math.min(noTeasedCount, noTeasePokes.length - 1)]
+        noTeasedCount++
         showTeaseMessage(msg)
         return
     }
-    window.location.href = 'yes.html'
+    window.location.href = 'no.html'
 }
 
 function showTeaseMessage(msg) {
@@ -88,23 +88,23 @@ function showTeaseMessage(msg) {
 }
 
 function handleNoClick() {
-    noClickCount++
+    yesClickCount++
 
     // Cycle through guilt-trip messages
-    const msgIndex = Math.min(noClickCount, noMessages.length - 1)
-    noBtn.textContent = noMessages[msgIndex]
+    const msgIndex = Math.min(yesClickCount, yesMessages.length - 1)
+    yesBtn.textContent = yesMessages[msgIndex]
 
-    // Grow the Yes button bigger each time
+    // Grow the No button bigger each time
     const currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize)
-    yesBtn.style.fontSize = `${currentSize * 1.35}px`
-    const padY = Math.min(18 + noClickCount * 5, 60)
-    const padX = Math.min(45 + noClickCount * 10, 120)
-    yesBtn.style.padding = `${padY}px ${padX}px`
+    noBtn.style.fontSize = `${currentSize * 1.35}px`
+    const padY = Math.min(18 + yesClickCount * 5, 60)
+    const padX = Math.min(45 + yesClickCount * 10, 120)
+    noBtn.style.padding = `${padY}px ${padX}px`
 
-    // Shrink No button to contrast
-    if (noClickCount >= 2) {
-        const noSize = parseFloat(window.getComputedStyle(noBtn).fontSize)
-        noBtn.style.fontSize = `${Math.max(noSize * 0.85, 10)}px`
+    // Shrink Yes button to contrast
+    if (yesClickCount >= 2) {
+        const yesSize = parseFloat(window.getComputedStyle(yesBtn).fontSize)
+        yesBtn.style.fontSize = `${Math.max(yesSize * 0.85, 10)}px`
     }
 
     // Swap cat GIF through stages
@@ -112,7 +112,7 @@ function handleNoClick() {
     swapGif(gifStages[gifIndex])
 
     // Runaway starts at click 5
-    if (noClickCount >= 5 && !runawayEnabled) {
+    if (yesClickCount >= 5 && !runawayEnabled) {
         enableRunaway()
         runawayEnabled = true
     }
@@ -133,16 +133,16 @@ function enableRunaway() {
 
 function runAway() {
     const margin = 20
-    const btnW = noBtn.offsetWidth
-    const btnH = noBtn.offsetHeight
+    const btnW = yesBtn.offsetWidth
+    const btnH = yesBtn.offsetHeight
     const maxX = window.innerWidth - btnW - margin
     const maxY = window.innerHeight - btnH - margin
 
     const randomX = Math.random() * maxX + margin / 2
     const randomY = Math.random() * maxY + margin / 2
 
-    noBtn.style.position = 'fixed'
-    noBtn.style.left = `${randomX}px`
-    noBtn.style.top = `${randomY}px`
-    noBtn.style.zIndex = '50'
+    yesBtn.style.position = 'fixed'
+    yesBtn.style.left = `${randomX}px`
+    yesBtn.style.top = `${randomY}px`
+    yesBtn.style.zIndex = '50'
 }
