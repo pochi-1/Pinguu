@@ -9,7 +9,13 @@ const gifStages = [
     'https://media1.tenor.com/m/uDugCXK4vI4AAAAC/chiikawa-hachiware.gif'
 ]
 
-const noMessages = ['No', 'Are you positive? 🤔', 'Pookie please... 🥺', 'If you say no, I will be really sad...', 'I will be very sad... 😢', 'Please??? 💔', "Don't do this to me...", 'Last chance! 😭']
+const noMessages = ['No', 'Are you positive? 🤔',
+                    'Tatampo ka pa? 🥺', 
+                    'If you say yes, I will be really sad...', 
+                    '🥹😣😫😢😭', 
+                    'Please??? 💔', 
+                    "Kiss na lang baby ko 🥹", 
+                    'Last chance! 😭']
 
 let noClickCount = 0
 let runawayEnabled = false
