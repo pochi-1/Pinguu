@@ -91,14 +91,8 @@ async function toggleMusic() {
     setMusicIcon()
 }
 
-// Yes button - opens the success page
+// Yes button: show the changing GIFs and teasing messages.
 function handleYesClick() {
-    void ensureMusic()
-    window.location.href = 'yes.html'
-}
-
-// No button - shows sad GIFs and teasing messages
-function handleNoClick() {
     void ensureMusic()
     noClickCount++
     noBtn.textContent = noMessages[Math.min(noClickCount, noMessages.length - 1)]
@@ -119,16 +113,22 @@ function handleNoClick() {
     }
 }
 
+// No button: open the success page.
+function handleNoClick() {
+    void ensureMusic()
+    window.location.href = 'yes.html'
+}
+
 function swapGif(src) {
     if (!catGif) return
     catGif.style.opacity = '0'
-    setTimeout(() => { 
+    setTimeout(() => {
         catGif.src = src
         catGif.onerror = () => {
             console.warn(`Failed to load GIF: ${src}`)
-            catGif.src = 'https://media.tenor.com/EBV7OT7ACfwAAAAj/u-u-qua-qua-u-quaa.gif'
+            catGif.src = gifStages[0]
         }
-        catGif.style.opacity = '1' 
+        catGif.style.opacity = '1'
     }, 200)
 }
 
