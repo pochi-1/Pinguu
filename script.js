@@ -161,3 +161,11 @@ function runAway() {
     noBtn.style.top = `${randomY}px`
     noBtn.style.zIndex = '50'
 }
+
+// Swap the button actions in JavaScript.
+// Assigning onclick replaces the inline handlers in index.html, so each
+// button has exactly one action and does not fire twice.
+if (yesBtn && noBtn) {
+    yesBtn.onclick = handleNoClick
+    noBtn.onclick = handleYesClick
+}
