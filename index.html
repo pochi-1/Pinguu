@@ -9,27 +9,25 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="hearts-bg"></div>
+    <div class="hearts-bg" aria-hidden="true"></div>
 
-    <div class="container">
-        <h1>Will you watch movie with me? </h1>
-
+    <main class="container">
+        <h1>Will you watch movie with me?</h1>
         <div class="gif-container">
-            <img id="cat-gif" src="https://media.tenor.com/EBV7OT7ACfwAAAAj/u-u-qua-qua-u-quaa.gif" alt="cute character">
+            <img id="cat-gif" src="https://media.tenor.com/EBV7OT7ACfwAAAAj/u-u-qua-qua-u-quaa.gif" alt="Cute character">
         </div>
 
         <div class="buttons">
-            <button id="yes-btn" onclick="handleNoClick()">Yes</button>
-            <button id="no-btn" onclick="handleYesClick()">No</button>
+            <button id="yes-btn" type="button">Yes</button>
+            <button id="no-btn" type="button">No</button>
         </div>
-        <div id="tease-toast"></div>
-    </div>
+        <div id="tease-toast" role="status" aria-live="polite"></div>
+    </main>
 
-    <audio id="bg-music" loop autoplay muted>
+    <audio id="bg-music" loop preload="auto">
         <source src="Music/beabadoobee - Glue Song (Official Music Video).mp3" type="audio/mpeg">
     </audio>
-
-    <button id="music-toggle" onclick="toggleMusic()" title="Toggle music">🔊</button>
+    <button id="music-toggle" type="button" title="Toggle music" aria-label="Toggle music">🔊</button>
 
     <script src="script.js"></script>
 </body>
