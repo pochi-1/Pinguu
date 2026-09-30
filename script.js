@@ -9,16 +9,7 @@ const gifStages = [
     'https://media1.tenor.com/m/uDugCXK4vI4AAAAC/chiikawa-hachiware.gif'
 ]
 
-const noMessages = [
-    'No',
-    'Are you positive? 🤔',
-    'Pookie please... 🥺',
-    'If you say no, I will be really sad...',
-    'I will be very sad... 😢',
-    'Please??? 💔',
-    "Don't do this to me...",
-    'Last chance! 😭'
-]
+const noMessages = ['No', 'Are you positive? 🤔', 'Pookie please... 🥺', 'If you say no, I will be really sad...', 'I will be very sad... 😢', 'Please??? 💔', "Don't do this to me...", 'Last chance! 😭']
 
 let noClickCount = 0
 let runawayEnabled = false
@@ -100,8 +91,14 @@ async function toggleMusic() {
     setMusicIcon()
 }
 
-// The Yes button now performs the teasing/GIF action.
+// Yes button - opens the success page
 function handleYesClick() {
+    void ensureMusic()
+    window.location.href = 'yes.html'
+}
+
+// No button - shows sad GIFs and teasing messages
+function handleNoClick() {
     void ensureMusic()
     noClickCount++
     noBtn.textContent = noMessages[Math.min(noClickCount, noMessages.length - 1)]
@@ -114,7 +111,6 @@ function handleYesClick() {
         const noSize = parseFloat(getComputedStyle(noBtn).fontSize) || 16
         noBtn.style.fontSize = `${Math.max(noSize * 0.85, 10)}px`
     }
-
     swapGif(gifStages[Math.min(noClickCount, gifStages.length - 1)])
     if (noClickCount >= 5 && !runawayEnabled) {
         runawayEnabled = true
@@ -123,22 +119,16 @@ function handleYesClick() {
     }
 }
 
-// The No button now opens the success page.
-function handleNoClick() {
-    void ensureMusic()
-    window.location.href = 'yes.html'
-}
-
 function swapGif(src) {
     if (!catGif) return
     catGif.style.opacity = '0'
-    setTimeout(() => {
+    setTimeout(() => { 
         catGif.src = src
         catGif.onerror = () => {
             console.warn(`Failed to load GIF: ${src}`)
-            catGif.src = gifStages[0]
+            catGif.src = 'https://media.tenor.com/EBV7OT7ACfwAAAAj/u-u-qua-qua-u-quaa.gif'
         }
-        catGif.style.opacity = '1'
+        catGif.style.opacity = '1' 
     }, 200)
 }
 
