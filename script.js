@@ -16,9 +16,7 @@ const noMessages = [
     "If you say no, mag titiktok dance ako...",
     "Malolongkot ang bata 🥹",
     "Please ate ko??? 💔",
-    "NOOOOOO 🥹🥹",
-    "Last chance! 😭",
-    "No, wala ka choice hehe 😜"
+    "No, wala ka choice hehe 😜",
 ]
 
 const yesTeasePokes = [
