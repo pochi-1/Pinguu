@@ -14,7 +14,7 @@ const noMessages = [
     "Are you sure? 🤔",
     "Honeybunch please... 🥺",
     "If you say no, mag titiktok dance ako...",
-    "Malolongkot ang bata 🥹,
+    "Malolongkot ang bata 🥹",
     "Please ate ko??? 💔",
     "NOOOOOO 🥹🥹",
     "Last chance! 😭",
@@ -29,7 +29,6 @@ const yesTeasePokes = [
 ]
 
 let yesTeasedCount = 0
-
 let noClickCount = 0
 let runawayEnabled = false
 let musicPlaying = true
@@ -38,46 +37,51 @@ const catGif = document.getElementById('cat-gif')
 const yesBtn = document.getElementById('yes-btn')
 const noBtn = document.getElementById('no-btn')
 const music = document.getElementById('bg-music')
+const musicToggle = document.getElementById('music-toggle')
 
-// Autoplay: audio starts muted (bypasses browser policy), unmute immediately
-music.muted = true
-music.volume = 0.3
-music.play().then(() => {
-    music.muted = false
-}).catch(() => {
-    // Fallback: unmute on first interaction
-    document.addEventListener('click', () => {
+if (music) {
+    music.muted = true
+    music.volume = 0.3
+    music.play().then(() => {
         music.muted = false
-        music.play().catch(() => {})
-    }, { once: true })
-})
+    }).catch(() => {
+        document.addEventListener('click', () => {
+            music.muted = false
+            music.play().catch(() => {})
+        }, { once: true })
+    })
+}
 
 function toggleMusic() {
+    if (!music) return
+
     if (musicPlaying) {
         music.pause()
         musicPlaying = false
-        document.getElementById('music-toggle').textContent = '🔇'
+        if (musicToggle) musicToggle.textContent = '🔇'
     } else {
         music.muted = false
-        music.play()
+        music.play().catch(() => {})
         musicPlaying = true
-        document.getElementById('music-toggle').textContent = '🔊'
+        if (musicToggle) musicToggle.textContent = '🔊'
     }
 }
 
 function handleYesClick() {
     if (!runawayEnabled) {
-        // Tease her to try No first
         const msg = yesTeasePokes[Math.min(yesTeasedCount, yesTeasePokes.length - 1)]
-        yesTeasedCount++
+        yesTeasedCount += 1
         showTeaseMessage(msg)
         return
     }
+
     window.location.href = 'yes.html'
 }
 
 function showTeaseMessage(msg) {
-    let toast = document.getElementById('tease-toast')
+    const toast = document.getElementById('tease-toast')
+    if (!toast) return
+
     toast.textContent = msg
     toast.classList.add('show')
     clearTimeout(toast._timer)
@@ -85,30 +89,31 @@ function showTeaseMessage(msg) {
 }
 
 function handleNoClick() {
-    noClickCount++
+    noClickCount += 1
 
-    // Cycle through guilt-trip messages
     const msgIndex = Math.min(noClickCount, noMessages.length - 1)
-    noBtn.textContent = noMessages[msgIndex]
+    if (noBtn) {
+        noBtn.textContent = noMessages[msgIndex]
+    }
 
-    // Grow the Yes button bigger each time
-    const currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize)
-    yesBtn.style.fontSize = `${currentSize * 1.35}px`
-    const padY = Math.min(18 + noClickCount * 5, 60)
-    const padX = Math.min(45 + noClickCount * 10, 120)
-    yesBtn.style.padding = `${padY}px ${padX}px`
+    if (yesBtn) {
+        const currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize) || 16
+        yesBtn.style.fontSize = `${currentSize * 1.35}px`
+        const padY = Math.min(18 + noClickCount * 5, 60)
+        const padX = Math.min(45 + noClickCount * 10, 120)
+        yesBtn.style.padding = `${padY}px ${padX}px`
+    }
 
-    // Shrink No button to contrast
-    if (noClickCount >= 2) {
-        const noSize = parseFloat(window.getComputedStyle(noBtn).fontSize)
+    if (noClickCount >= 2 && noBtn) {
+        const noSize = parseFloat(window.getComputedStyle(noBtn).fontSize) || 16
         noBtn.style.fontSize = `${Math.max(noSize * 0.85, 10)}px`
     }
 
-    // Swap cat GIF through stages
     const gifIndex = Math.min(noClickCount, gifStages.length - 1)
-    swapGif(gifStages[gifIndex])
+    if (catGif) {
+        swapGif(gifStages[gifIndex])
+    }
 
-    // Runaway starts at click 5
     if (noClickCount >= 5 && !runawayEnabled) {
         enableRunaway()
         runawayEnabled = true
@@ -124,22 +129,54 @@ function swapGif(src) {
 }
 
 function enableRunaway() {
+    if (!noBtn) return
+
     noBtn.addEventListener('mouseover', runAway)
     noBtn.addEventListener('touchstart', runAway, { passive: true })
 }
 
 function runAway() {
-    const margin = 20
-    const btnW = noBtn.offsetWidth
-    const btnH = noBtn.offsetHeight
-    const maxX = window.innerWidth - btnW - margin
-    const maxY = window.innerHeight - btnH - margin
+    if (!noBtn) return
 
-    const randomX = Math.random() * maxX + margin / 2
-    const randomY = Math.random() * maxY + margin / 2
+    const margin = 20
+    const btnW = noBtn.offsetWidth || 120
+    const btnH = noBtn.offsetHeight || 48
+    const maxX = Math.max(window.innerWidth - btnW - margin, margin)
+    const maxY = Math.max(window.innerHeight - btnH - margin, margin)
+
+    const randomX = Math.random() * Math.max(maxX - margin / 2, 0) + margin / 2
+    const randomY = Math.random() * Math.max(maxY - margin / 2, 0) + margin / 2
 
     noBtn.style.position = 'fixed'
     noBtn.style.left = `${randomX}px`
     noBtn.style.top = `${randomY}px`
     noBtn.style.zIndex = '50'
 }
+
+if (yesBtn) {
+    yesBtn.addEventListener('click', handleYesClick)
+}
+
+if (noBtn) {
+    noBtn.addEventListener('click', handleNoClick)
+}
+
+if (musicToggle) {
+    musicToggle.addEventListener('click', toggleMusic)
+}
+
+window.addEventListener('resize', () => {
+    if (noBtn && noBtn.style.position === 'fixed') {
+        const margin = 20
+        const btnW = noBtn.offsetWidth || 120
+        const btnH = noBtn.offsetHeight || 48
+        const maxX = Math.max(window.innerWidth - btnW - margin, margin)
+        const maxY = Math.max(window.innerHeight - btnH - margin, margin)
+
+        const currentLeft = parseFloat(noBtn.style.left || '0')
+        const currentTop = parseFloat(noBtn.style.top || '0')
+
+        noBtn.style.left = `${Math.min(currentLeft, maxX)}px`
+        noBtn.style.top = `${Math.min(currentTop, maxY)}px`
+    }
+})
