@@ -33,7 +33,7 @@ body {
     position: absolute;
     font-size: 1.5rem;
     opacity: 0.15;
-    animation: floatHearts 8s linear infinite;
+    animation: floatHearts 4s linear infinite;
     white-space: nowrap;
     top: 100%;
     left: 10%;
